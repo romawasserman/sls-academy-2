@@ -41,30 +41,33 @@ function askForOptions(data) {
         rl.close()
         return
       }
-      if (option === "1") {
+      else if (option === "1") {
         console.log(sortByAlphabet(wordsArray))
         askData()
       }
-      if (option === "2") {
+      else if (option === "2") {
         console.log(sortFromSmallToGreat(numsArray))
         askData()
       }
-      if (option === "3") {
+      else if (option === "3") {
         console.log(sortFromGreatToSmall(numsArray))
         askData()
       }
-      if (option === '4') {
+      else if (option === '4') {
         console.log(sortByLength(wordsArray))        
         askData()
 
       }
-      if (option === '5') {
+      else if (option === '5') {
         console.log(uniqueWords(wordsArray))
         askData()
       }
-      if (option === '6') {
+      else if (option === '6') {
         console.log(allUniqueWords(wordsArray, numsArray));
         askData();
+      }else {
+        console.log("Invalid option. Please choose a number from 1 to 6.");
+        askForOptions(data)
       }
     }
   )
