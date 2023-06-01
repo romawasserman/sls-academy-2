@@ -1,0 +1,9 @@
+{"name":"sdasd","gender":"Male","age":22}
+{"name":"s","gender":"Male","age":22}
+{"name":"y","gender":"Male","age":4}
+{"name":"roa","gender":"Female","age":23}
+{"name":"lsls","gender":"Male","age":11}
+{"name":"kek","gender":"Male","age":33}
+{"name":"pomidor","gender":"Male","age":11}
+{"name":"pomidor","gender":"Male","age":33}
+{"name":"pos","gender":"Male","age":11}
