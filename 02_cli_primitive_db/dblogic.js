@@ -2,7 +2,7 @@ import fs from "node:fs"
 import { promisify } from "node:util"
 
 const appendFilePromise = promisify(fs.appendFile)
-const readFilePromise = promisify(fs.readFile)
+export const readFilePromise = promisify(fs.readFile)
 
 export async function findPerson(name) {
   return readFilePromise("data.txt", "utf8")
