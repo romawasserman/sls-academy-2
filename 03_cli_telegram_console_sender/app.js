@@ -14,9 +14,10 @@ program
 program
   .command("message")
   .description("Send message from console to Telegram Bot")
-  .argument("message")
+  .arguments("<message>")
   .alias("m")
   .action(async (message) => {
+    console.log(message);
     if (!message) {
       console.log('Enter message');
       process.exit()

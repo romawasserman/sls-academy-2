@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { bot } from './test.js'
+import { bot } from './app.js'
 export function storeChatId(chatId, callback) {
   try {
     const data = fs.readFileSync("chatIds.txt", "utf8")
