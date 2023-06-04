@@ -43,7 +43,6 @@ bot.on("message", (msg) => {
 })
 
 bot.on("message", async (msg) => {
-  console.log(intervalIds);
   if (msg.text === "Get daily forecast each 3 hours") {
     try {
       const forecast = await getForecast(3)

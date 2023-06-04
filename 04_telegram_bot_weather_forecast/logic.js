@@ -39,7 +39,6 @@ function getWeather() {
             Wind: ${Math.floor(
               response.data.wind.speed
             )}m/s, ${windDirection}`.replace(/\n\s+/g, "\n")
-        console.log(weather)
         resolve(weather)
       })
       .catch(function (error) {
@@ -49,7 +48,7 @@ function getWeather() {
 }
 
 function hoursToMillis(hours) {
-  const milliseconds = 1000 * 10
+  const milliseconds = 1000 * 60 * 60
   return hours * milliseconds
 }
 
