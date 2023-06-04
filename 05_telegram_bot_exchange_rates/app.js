@@ -6,6 +6,10 @@ const bot = new TelegramBot("6289438035:AAH_JvT3xlfYBe8G8Wteujet2g1a0L0gB6k", {
   polling: true,
 })
 
+
+
+
+
 bot.onText(/\/start/, (msg) => {
   const keyboard = {
     keyboard: [[{ text: "Курс валют" }]],
