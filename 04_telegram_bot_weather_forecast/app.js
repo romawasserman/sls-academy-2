@@ -5,6 +5,8 @@ export const bot = new TelegramBot("6256959823:AAHdMt7Eu2yKKHxwhEbkoEffNzk_wx_DU
   polling: true,
 })
 
+export const intervalIds = []
+
 bot.onText(/\/start/, (msg) => {
   const keyboard = {
     keyboard: [[{ text: "Forecast in Zaporizhzhia" }]],
@@ -31,12 +33,13 @@ bot.on("message", (msg) => {
     })
   }
 })
-let intervalId
+
 bot.on("message", (msg) => {
   if (msg.text === "Get daily forecast each 3 hours") {
-    startWeather(intervalId, 3, msg.chat.id)
+    startWeather(3, msg.chat.id)
+    console.log(intervalIds)
   } else if (msg.text === "Get daily forecast each 6 hours") {
-    startWeather(intervalId, 6, msg.chat.id)
+    startWeather(6, msg.chat.id)
   }
 })
 bot.on("polling_error", console.log)

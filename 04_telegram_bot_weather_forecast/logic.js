@@ -1,5 +1,5 @@
 import axios from "axios"
-import { bot } from "./app.js"
+import { bot, intervalIds } from "./app.js"
 
 function getWeather() {
   return new Promise((resolve, reject) => {
@@ -53,16 +53,33 @@ function hoursToMillis(hours) {
   return hours * milliseconds
 }
 
-export function startWeather(intervalId, hours, chatId) {
-  if (intervalId) {
-    clearInterval(intervalId)
+function findInterval(id) {
+  const index = intervalIds.findIndex(obj => obj.userId === id)
+  if (index !== -1) {
+    const intervalId = intervalIds[index].intervalId
+    intervalIds.splice(index, 1)
+    return intervalId
+  }else {
+    return null
+  }
+}
+
+
+export async function startWeather(hours, chatId) {
+  const userInterval = await findInterval(chatId)
+  if (userInterval) {
+    clearInterval(userInterval)
   }
   getWeather().then((weather) => {
     bot.sendMessage(chatId, weather)
   })
-  intervalId = setInterval(() => {
+  const intervalId = setInterval(() => {
     getWeather().then((weather) => {
       bot.sendMessage(chatId, weather)
     })
   }, hoursToMillis(hours))
+  intervalIds.push({'intervalId': intervalId, 'userId' : chatId })
 }
+
+
+
