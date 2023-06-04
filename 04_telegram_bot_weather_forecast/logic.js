@@ -49,19 +49,14 @@ function getWeather() {
 }
 
 function hoursToMillis(hours) {
-  const milliseconds = 1000 * 60 * 60
+  const milliseconds = 1000 * 10
   return hours * milliseconds
 }
 
 function findInterval(id) {
-  const index = intervalIds.findIndex(obj => obj.userId === id)
-  if (index !== -1) {
-    const intervalId = intervalIds[index].intervalId
-    intervalIds.splice(index, 1)
-    return intervalId
-  }else {
-    return null
-  }
+  if (intervalIds.has(id)) {
+    return intervalIds.get(id)
+  }else return null
 }
 
 
@@ -69,6 +64,7 @@ export async function startWeather(hours, chatId) {
   const userInterval = await findInterval(chatId)
   if (userInterval) {
     clearInterval(userInterval)
+    intervalIds.delete(chatId)
   }
   getWeather().then((weather) => {
     bot.sendMessage(chatId, weather)
@@ -78,8 +74,41 @@ export async function startWeather(hours, chatId) {
       bot.sendMessage(chatId, weather)
     })
   }, hoursToMillis(hours))
-  intervalIds.push({'intervalId': intervalId, 'userId' : chatId })
+  intervalIds.set(chatId, intervalId)
 }
 
+export async function getForecast(hours) {
+  try {
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=Zaporizhia&appid=8c9c8abbe2a66956fb288cae439a2fc7&units=metric`)
 
+  let message = 'Weather in Zaporizhia: \n\n'
+  let sameDay
+  response.data.list.forEach((data) => {
+    const date = new Date(data.dt * 1000) 
+    const dateValue = date.getDate()
+    const month = date.toLocaleString("en-US", { month: "long" })
+    const day = date.toLocaleDateString("en-US", { weekday: "long" })
+    const hour = date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      hour12: false,
+    })
+    if (hour % hours === 0) {
+      if (day !== sameDay){
+        message += `\n`
+        message += `${day}, `;
+        message += `${dateValue} `
+        message += `${month} \n`
+      }
+      message += `${hour} : 00, `
+      message += `${data.main.temp > 0 ? '+' : ''}${data.main.temp}°C, `;
+      message += `Feels like: ${data.main.feels_like > 0 ? '+' : ''}${data.main.feels_like}°C, `;
+      message += `${data.weather[0].main}\n`
+      sameDay = day
+    }
+  })
+  return message
+  } catch (err) {
+    console.log('something went wrong ', err)
+  }
+}
 
