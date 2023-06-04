@@ -1,7 +1,7 @@
 import axios from "axios"
 import { bot } from "./app.js"
 
-async function getWeather() {
+function getWeather() {
   return new Promise((resolve, reject) => {
     axios
       .get(
