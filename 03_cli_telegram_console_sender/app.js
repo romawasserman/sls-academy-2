@@ -1,7 +1,8 @@
 import TelegramBot from "node-telegram-bot-api"
 import { program } from "commander"
-
 const token = "5991745792:AAGODNtq5HgkjvNIr3yxLW9eKT9C0hd5-XM"
+
+process.env["NTBA_FIX_350"] = 1;
 
 export const bot = new TelegramBot(token, { polling: true })
 
@@ -48,10 +49,11 @@ program
         if (!users.includes(msg.chat.id)) {
           console.log(msg.chat.id, users)
           users.push(msg.chat.id)
-          bot.sendPhoto(msg.chat.id, path).then(() => process.exit())
+          bot.sendPhoto(msg.chat.id, path, {}, { contentType: "image/jpeg"}).then(() => process.exit())
         }
       })
     }
   })
 
 program.parse(process.argv)
+bot.on("polling_error", console.log)
