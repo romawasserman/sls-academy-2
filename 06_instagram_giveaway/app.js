@@ -21,7 +21,9 @@ async function uniqueValues() {
 
   for (let i = 0; i < 20; i++) {
     const filePath = join("data", `out${i}.txt`)
-    const users = await readFile(filePath)
+    const allUsers = await readFile(filePath)
+    const temp = new Set(allUsers)
+    const users = Array.from(temp)
 
     for (const user of users) {
       usernamesSet.add(user)
